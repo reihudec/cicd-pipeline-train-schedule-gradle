@@ -1,0 +1,63 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 65536 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2795), pid=12565, tid=0x00007f067b40a700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_312-b07) (build 1.8.0_312-b07)
+# Java VM: OpenJDK 64-Bit Server VM (25.312-b07 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007f068c115800):  JavaThread "C2 CompilerThread0" daemon [_thread_in_vm, id=12582, stack(0x00007f067b30b000,0x00007f067b40b000)]
+
+Stack: [0x00007f067b30b000,0x00007f067b40b000],  sp=0x00007f067b4065c0,  free space=1005k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0xb680cd]  VMError::report_and_die()+0x1cd
+V  [libjvm.so+0x508f9a]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0xaa
+V  [libjvm.so+0x942a18]  os::pd_commit_memory(char*, unsigned long, unsigned long, bool)+0xd8
+V  [libjvm.so+0x93a26e]  os::commit_memory(char*, unsigned long, unsigned long, bool)+0x2e
+V  [libjvm.so+0xb64c64]  VirtualSpace::expand_by(unsigned long, bool)+0x1b4
+V  [libjvm.so+0x620eac]  CodeHeap::expand_by(unsigned long)+0x6c
+V  [libjvm.so+0x490516]  CodeCache::allocate(int, bool)+0x46
+V  [libjvm.so+0x488a0b]  BufferBlob::create(char const*, int)+0x8b
+V  [libjvm.so+0x48d511]  CodeBuffer::initialize(int, int)+0x21
+V  [libjvm.so+0x957082]  Compile::init_buffer(unsigned int*)+0x212
+V  [libjvm.so+0x95e821]  Compile::Output()+0x351
+V  [libjvm.so+0x4b0c38]  Compile::Code_Gen()+0x4e8
+V  [libjvm.so+0x4b4a0e]  Compile::Compile(ciEnv*, C2Compiler*, ciMethod*, int, bool, bool, bool)+0x116e
+V  [libjvm.so+0x409e80]  C2Compiler::compile_method(ciEnv*, ciMethod*, int)+0x1d0
+V  [libjvm.so+0x4bc402]  CompileBroker::invoke_compiler_on_method(CompileTask*)+0x8c2
+V  [libjvm.so+0x4bd160]  CompileBroker::compiler_thread_loop()+0x510
+V  [libjvm.so+0xb0f202]  JavaThread::thread_main_inner()+0x212
+V  [libjvm.so+0x93f9a2]  java_start(Thread*)+0xf2
+C  [libpthread.so.0+0x7ea5]  start_thread+0xc5
+
+
+Current CompileTask:
+C2: 395646 1157       4       org.gradle.internal.logging.console.DefaultColorMap::getColor (38 bytes)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007f068c868000 JavaThread "Forward input" [_thread_blocked, id=12593, stack(0x00007f06796af000,0x00007f06797b0000)]
+  0x00007f068c865000 JavaThread "DisconnectableInputStream source reader" daemon [_thread_in_native, id=12592
