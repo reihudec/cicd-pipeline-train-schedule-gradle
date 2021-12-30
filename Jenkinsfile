@@ -44,7 +44,6 @@ pipeline {
                     }
             steps {
                 input 'Ready to go? Proceed or Abort'
-                milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
                         failOnError: true,
