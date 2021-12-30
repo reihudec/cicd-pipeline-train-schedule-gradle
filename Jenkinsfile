@@ -43,9 +43,7 @@ pipeline {
                        branch 'master'
                     }
             steps {
-                input {
-                    message 'Ready to go? Proceed or Abort'
-                }
+                input 'Ready to go? Proceed or Abort'
                 milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
