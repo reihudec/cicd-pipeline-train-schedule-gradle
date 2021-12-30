@@ -11,9 +11,6 @@ pipeline {
         stage('Deploy to Staging') {
                     when {
                        branch 'master'
-                        expression {
-                            currentBuild.result == 'SUCCESS'
-                        }
                     }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
