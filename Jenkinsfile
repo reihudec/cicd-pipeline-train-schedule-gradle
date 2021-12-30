@@ -3,15 +3,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the train schedule application..'
+                echo 'Running build automation'
                 sh './gradlew build --no-daemon'
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
-        stage('Deploy to Staging') {
-                    when {
-                       branch 'master'
-                    }
+        stage('DeployToStaging') {
+            when {
+                branch 'master'
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
@@ -38,19 +38,20 @@ pipeline {
                 }
             }
         }
-                stage('Deploy to Production') {
-                    when {
-                       branch 'master'
-                    }
+        stage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
             steps {
-                input 'Ready to go? Proceed or Abort'
+                input 'Does the staging environment look OK?'
+                milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
-                                configName: 'staging',
+                                configName: 'production',
                                 sshCredentials: [
                                     username: "$USERNAME",
                                     encryptedPassphrase: "$USERPASS"
