@@ -22,19 +22,7 @@ pipeline {
           }
         }
       }
-        stage('Deploy to Production') {
-            steps{
-                script {
-                    docker.withServer('$production_server_ip', 'webserver_server_login') {
-                        docker.image('$registry:$BUILD_NUMBER').withRun('-p 3000:8080') {
-                            sh 'node --version'
-                        }
-                    }
-                }
-            } 
-        }
-        
-         stage('DeployToProduction') {
+        stage('DeployToProduction') {
             when {
                 branch 'master'
             }
