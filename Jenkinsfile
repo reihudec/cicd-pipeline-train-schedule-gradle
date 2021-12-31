@@ -7,6 +7,9 @@ pipeline {
     agent any
     stages {
       stage('Building Docker Image') {
+          when {
+                branch 'master'
+            }
         steps{
           script {
             dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -14,6 +17,9 @@ pipeline {
         }
       }
       stage('Push Docker Image') {
+          when {
+                branch 'master'
+            }
         steps{
           script {
             docker.withRegistry( '', registryCredential ) {
@@ -45,6 +51,9 @@ pipeline {
         }
               
       stage('Remove Unused Docker Image') {
+          when {
+                branch 'master'
+            }
         steps{
           sh "docker rmi $registry:$BUILD_NUMBER"
         }
