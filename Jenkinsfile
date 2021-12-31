@@ -22,11 +22,19 @@ pipeline {
         }
       }
     }
+     stage('Deploy to Production') {
+      steps{
+        script {
+          docker.withServer('${production_server_ip}', 'webserver_server_login-certs') {
+            docker.image('$registry:$BUILD_NUMBER').withRun('-p 3000:8080') {
+          }
+        }
+      }
+    } 
     stage('Remove Unused Docker Image') {
       steps{
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
-      
   }
 }
